@@ -158,7 +158,6 @@ class CreateLogoScreen extends Component {
                                                             height: 1000
                                                         }}
                                                         disableDragging={true}
-                                                        enableResizing={false}       
                                                         >
                                                     
                                                     </Rnd>
@@ -269,9 +268,7 @@ class CreateLogoScreen extends Component {
                                                 >
                                                 {this.state.renderText ? this.state.renderText :  "New Logo"}
                                                 </Rnd>
-                                    
-                                </div>
-                                <div className="col-6">
+                                                <div className="col-6">
                                                 <AddImage images={this.state.images}/>
                                             </div>
 
@@ -279,6 +276,8 @@ class CreateLogoScreen extends Component {
                                             <div className="col-6">
                                                 <AddLogo logoName={this.state.logos} textSizeProp={this.state.fontSizeEdit} colorChangeProp={this.state.colorChangeEdit} textProp={this.state.logoToEdit}/>
                                             </div>
+                                </div>
+                                
                                 {loading && <p>Loading...</p>}
                                 {error && <p>Error :( Please try again</p>}
                             </div>
