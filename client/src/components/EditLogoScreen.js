@@ -93,7 +93,10 @@ class EditLogoScreen extends Component {
             newLogoText: "New Logo",
             newLogoColor: "",
             newLogoFont: "",
-            logoToDelete: ""
+            logoToDelete: "",
+            fontSizeEdit: "",
+            colorChangeEdit: "",
+            logoToEdit: ""
                 
             
         }
@@ -115,10 +118,16 @@ class EditLogoScreen extends Component {
             this.setState({logos: array});
         }
     }
+    fontChange = () => {
+        this.forceUpdate()
+        
+    }
     
     linkHandler = (e) => this.setState({link:e.target.value});
     logoHandler = (e) => this.setState({newLogoText: e.target.value});
-    deleteHandler = (e) => this.setState({logoToDelete: e.target.value})
+    deleteHandler = (e) => this.setState({logoToDelete: e.target.value});
+    whichLogoChangeHandler = (e) => this.setState({logoToEdit: e.target.value});
+    newFontChangeHandler = (e) => this.setState({fontSizeEdit: e.target.value});
     exportImage = (e) => {
         console.log("export")
         // const input = document.getElementById('allLogos');
@@ -132,14 +141,14 @@ class EditLogoScreen extends Component {
                 var width = pdf.internal.pageSize.getWidth();
                 var height = pdf.internal.pageSize.getHeight();
 
-                pdf.addImage(imgData, 'JPEG', -100, -50, width, height);
+                pdf.addImage(imgData, 'JPEG', 0, 0, width, height);
                 pdf.save("test.pdf");
             });
     }
     
 
     render() {
-        let text, color, fontSize, backgroundColor, borderColor, borderWidth, borderRadius, padding, margin;
+        let text, color, fontSize, backgroundColor, borderColor, borderWidth, borderRadius, padding, margin, colorChangeEdit;
         return (
             <Query query={GET_LOGO} variables={{ logoId: this.props.match.params.id }}>
                 {({ loading, error, data }) => {
@@ -278,6 +287,19 @@ class EditLogoScreen extends Component {
                                                         <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={this.addLink}>Add Image</button>
                                                     </div>
                                                 </div>
+                                                {/* <div className="form-group col-4">
+                                                    <label>New Color Edit:</label>
+                                                    <input type="color" className="form-control" name="color" ref={node => {
+                                                        color = node;
+                                                    }}onChange={() => this.setState({colorChangeEdit: color.value})} placeholder={data.logo.color} defaultValue={data.logo.color} />
+                                                </div> */}
+                                                <div className="form-group col-4">
+                                                    <input type="text" className="form-control" onChange={this.whichLogoChangeHandler} placeholder="Image Link" aria-label="Recipient's username" aria-describedby="button-addon2"/>
+                                                    <input type="text" className="form-control" onChange={this.newFontChangeHandler} placeholder="Image Link" aria-label="Recipient's username" aria-describedby="button-addon2"/>
+                                                    <div className="input-group-append">
+                                                        <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={this.fontChange}>New Font</button>
+                                                    </div>
+                                                </div>
                                                 {/* <div className="custom-file">
                                                     <input type="file" className="custom-file-input" id="customFile"/>
                                                     <label className="custom-file-label" htmlFor="customFile">Choose file</label>
@@ -336,7 +358,7 @@ class EditLogoScreen extends Component {
 
 
                                             <div className="col-6">
-                                                <AddLogo logoName={this.state.logos}/>
+                                                <AddLogo logoName={this.state.logos} textSizeProp={this.state.fontSizeEdit} colorChangeProp={this.state.colorChangeEdit} textProp={this.state.logoToEdit}/>
                                             </div>
                                             </div>
                                             {loading && <p>Loading...</p>}

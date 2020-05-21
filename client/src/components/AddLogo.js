@@ -25,7 +25,7 @@ class AddLogo extends Component {
                         //display: "inline-block",
                         text: logo,
                         color: "#000000",
-                        fontSize: 44 + "pt",
+                        fontSize: this.props.textProp == logo ? this.props.textSizeProp + "pt" ? this.props.textSizeProp + "pt" : 44 + "pt" : 44 + "pt",
                         
                     }}
                     onDragStop={(e, d) => { this.setState({ renderX: d.x, renderY: d.y }) }}
