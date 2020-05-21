@@ -4,6 +4,8 @@ import { Mutation } from "react-apollo";
 import { Link } from 'react-router-dom';
 import { clamp } from '../utils/utlity';
 import {Rnd} from 'react-rnd';
+import AddImage from './AddImage';
+import AddLogo from './AddLogo';
 
 const ADD_LOGO = gql`
     mutation AddLogo(
@@ -62,9 +64,46 @@ class CreateLogoScreen extends Component {
             renderBorderRadius: "",
             renderFontSize: "",
             renderPadding: "",
-            renderMargin: ""
+            renderMargin: "",
+            logos: [],
+            images: [],
+            newLogoText: "New Logo",
+            newLogoColor: "",
+            newLogoFont: "",
+            logoToDelete: "",
+            fontSizeEdit: "",
+            colorChangeEdit: "",
+            logoToEdit: "",
+            link: ""
         }
     }
+    addLink = () => {
+        
+        this.setState({images: [...this.state.images, this.state.link]})
+    }
+    addLogo = () => {
+        console.log("pressed")
+        this.setState({logos: [...this.state.logos, this.state.newLogoText]})
+    }
+
+    deleteLogo = () => {
+        var array = [...this.state.logos]; // make a separate copy of the array
+        var index = array.indexOf(this.state.logoToDelete)
+        if (index !== -1) {
+            array.splice(index, 1);
+            this.setState({logos: array});
+        }
+    }
+    fontChange = () => {
+        this.forceUpdate()
+        
+    }
+    
+    linkHandler = (e) => this.setState({link:e.target.value});
+    logoHandler = (e) => this.setState({newLogoText: e.target.value});
+    deleteHandler = (e) => this.setState({logoToDelete: e.target.value});
+    whichLogoChangeHandler = (e) => this.setState({logoToEdit: e.target.value});
+    newFontChangeHandler = (e) => this.setState({fontSizeEdit: e.target.value});
 
     render() {
         let text, color, fontSize, backgroundColor, borderColor, borderWidth, borderRadius, padding, margin;
@@ -100,12 +139,47 @@ class CreateLogoScreen extends Component {
                                     // this.state.x = "";
                                     // this.state.y = "";
                                 }}>
-                                    <div className="form-group col-8">
+                                    <div className="form-group col-4">
+                                    <div>
+                                                    <Rnd 
+                                                    ref={c => { this.rnd = c; }}
+                                                        style= {{
+                                                            display: "inline-block",
+                                                            backgroundColor: this.state.renderBackgroundColor ? this.state.renderBackgroundColor : "#FFFFFF",
+                                                            borderColor: this.state.renderBorderColor ? this.state.renderBorderColor : "#000000",
+                                                            borderStyle: "solid",
+                                                            borderWidth: (this.state.renderBorderWidth ? this.state.renderBorderWidth : 5) + "px",
+                                                            borderRadius: (this.state.renderBorderRadius ? this.state.renderBorderRadius : 5) + "px",
+                                                        }}
+                                                        default= {{
+                                                            x: 150,
+                                                            y: 0,
+                                                            width: 1080,
+                                                            height: 1000
+                                                        }}
+                                                        disableDragging={true}
+                                                        enableResizing={false}       
+                                                        >
+                                                    
+                                                    </Rnd>
+                                                </div>
                                         <label htmlFor="text">Text:</label>
                                         <input type="text" className="form-control" name="text" ref={node => {
                                             text = node;
                                         }} onChange={() => this.setState({renderText: text.value})} placeholder="Text" />
                                     </div>
+                                    <div className="form-group col-4">
+                                                    <input type="text" className="form-control" onChange={this.logoHandler} placeholder="Logo Name" aria-label="Recipient's username" aria-describedby="button-addon2"/>
+                                                    <div className="input-group-append">
+                                                        <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={this.addLogo}>Add Logo</button>
+                                                    </div>
+                                                </div>
+                                                <div className="form-group col-4">
+                                                    <input type="text" className="form-control" onChange={this.deleteHandler} placeholder="Logo Name" aria-label="Recipient's username" aria-describedby="button-addon2"/>
+                                                    <div className="input-group-append">
+                                                        <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={this.deleteLogo}>Delete Logo</button>
+                                                    </div>
+                                                </div>
                                     <div className="form-group col-4">
                                         <label htmlFor="color">Color:</label>
                                         <input type="color" className="form-control" name="color" ref={node => {
@@ -124,36 +198,55 @@ class CreateLogoScreen extends Component {
                                             borderColor = node;
                                         }} onChange={() => this.setState({renderBorderColor: borderColor.value})} placeholder="Border Color" />
                                     </div>
-                                    <div className="form-group col-8">
+                                    <div className="form-group col-4">
                                         <label htmlFor="fontSize">Font Size:</label>
                                         <input type="text" onInput={()=>{fontSize.value = clamp(fontSize.value, 0, 144);}} className="form-control" name="fontSize" ref={node => {
                                             fontSize = node;
                                         }} onChange={() => this.setState({renderFontSize: parseInt(fontSize.value)})} placeholder="Font Size" />
                                     </div>
-                                    <div className="form-group col-8">
+                                    <div className="form-group col-4">
                                         <label htmlFor="borderWidth">Border Width:</label>
                                         <input type="number" onInput={()=>{borderWidth.value = clamp(borderWidth.value, 0, 100);}} className="form-control" name="borderWidth" ref={node => {
                                             borderWidth = node;
                                         }} onChange={() => this.setState({renderBorderWidth: parseInt(borderWidth.value)})} placeholder="Border Width" />
                                     </div>
-                                    <div className="form-group col-8">
+                                    <div className="form-group col-4">
                                         <label htmlFor="borderRadius">Border Radius:</label>
                                         <input type="number" onInput={()=>{borderRadius.value = clamp(borderRadius.value, 0, 100);}} className="form-control" name="borderRadius" ref={node => {
                                             borderRadius = node;
                                         }} onChange={() => this.setState({renderBorderRadius: parseInt(borderRadius.value)})} placeholder="Border Radius" />
                                     </div>
-                                    <div className="form-group col-8">
+                                    <div className="form-group col-4">
                                         <label htmlFor="padding">Padding:</label>
                                         <input type="number" onInput={()=>{padding.value = clamp(padding.value, 0, 100);}} className="form-control" name="padding" ref={node => {
                                             padding = node;
                                         }} onChange={() => this.setState({renderPadding: parseInt(padding.value)})} placeholder="Padding" />
                                     </div>
-                                    <div className="form-group col-8">
+                                    <div className="form-group col-4">
                                         <label htmlFor="margin">Margin:</label>
                                         <input type="number" onInput={()=>{margin.value = clamp(margin.value, 0, 100);}} className="form-control" name="margin" ref={node => {
                                             margin = node;
                                         }} onChange={() => this.setState({renderMargin: parseInt(margin.value)})} placeholder="Margin" />
                                     </div>
+                                    <div className="form-group col-4">
+                                                    <input type="text" className="form-control" onChange={this.linkHandler} placeholder="Image Link" aria-label="Recipient's username" aria-describedby="button-addon2"/>
+                                                    <div className="input-group-append">
+                                                        <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={this.addLink}>Add Image</button>
+                                                    </div>
+                                                </div>
+                                                {/* <div className="form-group col-4">
+                                                    <label>New Color Edit:</label>
+                                                    <input type="color" className="form-control" name="color" ref={node => {
+                                                        color = node;
+                                                    }}onChange={() => this.setState({colorChangeEdit: color.value})} placeholder={data.logo.color} defaultValue={data.logo.color} />
+                                                </div> */}
+                                                <div className="form-group col-4">
+                                                    <input type="text" className="form-control" onChange={this.whichLogoChangeHandler} placeholder="Logo Name" aria-label="Recipient's username" aria-describedby="button-addon2"/>
+                                                    <input type="text" className="form-control" onChange={this.newFontChangeHandler} placeholder="New Font Size" aria-label="Recipient's username" aria-describedby="button-addon2"/>
+                                                    <div className="input-group-append">
+                                                        <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={this.fontChange}>New Font</button>
+                                                    </div>
+                                                </div>
                                     <button type="submit" className="btn btn-success">Submit</button>
                                 </form>
                                 <div className="col-6">
@@ -161,14 +254,7 @@ class CreateLogoScreen extends Component {
                                                 style= {{
                                                     //display: "inline-block",
                                                     color: this.state.renderColor ? this.state.renderColor : "#000000",
-                                                    backgroundColor: this.state.renderBackgroundColor ? this.state.renderBackgroundColor : "#FFFFFF",
-                                                    borderColor: this.state.renderBorderColor ? this.state.renderBorderColor : "#000000",
-                                                    borderStyle: "solid",
                                                     fontSize: (this.state.renderFontSize ? this.state.renderFontSize : 12) + "pt",
-                                                    borderWidth: (this.state.renderBorderWidth ? this.state.renderBorderWidth : 5) + "px",
-                                                    borderRadius: (this.state.renderBorderRadius ? this.state.renderBorderRadius : 5) + "px",
-                                                    padding: (this.state.renderPadding ? this.state.renderPadding : 0) + "px",
-                                                    margin: (this.state.renderMargin ? this.state.renderMargin : 0) + "px"
                                                 }}
                                                 size={{ width: this.state.renderWidth,  height: this.state.renderHeight }}
                                                 position={{ x: this.state.renderX, y: this.state.renderY }}
@@ -185,6 +271,14 @@ class CreateLogoScreen extends Component {
                                                 </Rnd>
                                     
                                 </div>
+                                <div className="col-6">
+                                                <AddImage images={this.state.images}/>
+                                            </div>
+
+
+                                            <div className="col-6">
+                                                <AddLogo logoName={this.state.logos} textSizeProp={this.state.fontSizeEdit} colorChangeProp={this.state.colorChangeEdit} textProp={this.state.logoToEdit}/>
+                                            </div>
                                 {loading && <p>Loading...</p>}
                                 {error && <p>Error :( Please try again</p>}
                             </div>

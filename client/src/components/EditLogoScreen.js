@@ -189,10 +189,6 @@ class EditLogoScreen extends Component {
                                                 
                                             }}>
                                                 <div className="form-group col-8">
-                                                <button type="button" className="btn btn-primary btn-sm" onClick={this.exportImage}>Export Image</button>
-
-                                                    </div>
-                                                <div className="form-group col-4">
                                                 <div>
                                                     <Rnd 
                                                     ref={c => { this.rnd = c; }}
@@ -216,6 +212,12 @@ class EditLogoScreen extends Component {
                                                     
                                                     </Rnd>
                                                 </div>
+                                                
+                                                <button type="button" className="btn btn-primary btn-sm" onClick={this.exportImage}>Export Image</button>
+                                                
+
+                                                    </div>
+                                                <div className="form-group col-4">
                                                 
                                                     <label htmlFor="text">Text:</label>
                                                     <input type="text" className="form-control" name="text" ref={node => {
@@ -309,8 +311,22 @@ class EditLogoScreen extends Component {
                                                 
                                                 <button type="submit" className="btn btn-success">Submit</button>
                                             </form>
-                                            <div className="container" id="allLogos">
-                                                
+                                            
+                                            
+                                            <div className="col-6">
+                                            
+                                                {/* <span style={{
+                                                    display: "inline-block",
+                                                    color: this.state.renderColor ? this.state.renderColor : data.logo.color,
+                                                    backgroundColor: this.state.renderBackgroundColor ? this.state.renderBackgroundColor : data.logo.backgroundColor,
+                                                    borderColor: this.state.renderBorderColor ? this.state.renderBorderColor : data.logo.borderColor,
+                                                    borderStyle: "solid",
+                                                    fontSize: (this.state.renderFontSize ? this.state.renderFontSize : data.logo.fontSize) + "pt",
+                                                    borderWidth: (this.state.renderBorderWidth ? this.state.renderBorderWidth : data.logo.borderWidth) + "px",
+                                                    borderRadius: (this.state.renderBorderRadius ? this.state.renderBorderRadius : data.logo.borderRadius) + "px",
+                                                    padding: (this.state.renderPadding ? this.state.renderPadding : data.logo.padding) + "px",
+                                                    margin: (this.state.renderMargin ? this.state.renderMargin : data.logo.margin) + "px"
+                                                }}>{this.state.renderText ? this.state.renderText :  data.logo.text}</span> */}
                                             <div>
                                                 <Rnd
                                                 style= {{
@@ -339,21 +355,6 @@ class EditLogoScreen extends Component {
                                                 </Rnd>
                                                 </div>
                                             <div className="col-6">
-                                            
-                                                {/* <span style={{
-                                                    display: "inline-block",
-                                                    color: this.state.renderColor ? this.state.renderColor : data.logo.color,
-                                                    backgroundColor: this.state.renderBackgroundColor ? this.state.renderBackgroundColor : data.logo.backgroundColor,
-                                                    borderColor: this.state.renderBorderColor ? this.state.renderBorderColor : data.logo.borderColor,
-                                                    borderStyle: "solid",
-                                                    fontSize: (this.state.renderFontSize ? this.state.renderFontSize : data.logo.fontSize) + "pt",
-                                                    borderWidth: (this.state.renderBorderWidth ? this.state.renderBorderWidth : data.logo.borderWidth) + "px",
-                                                    borderRadius: (this.state.renderBorderRadius ? this.state.renderBorderRadius : data.logo.borderRadius) + "px",
-                                                    padding: (this.state.renderPadding ? this.state.renderPadding : data.logo.padding) + "px",
-                                                    margin: (this.state.renderMargin ? this.state.renderMargin : data.logo.margin) + "px"
-                                                }}>{this.state.renderText ? this.state.renderText :  data.logo.text}</span> */}
-                                            
-                                            <div className="col-6">
                                                 <AddImage images={this.state.images}/>
                                             </div>
 
@@ -367,7 +368,7 @@ class EditLogoScreen extends Component {
                                         </div>
                                         </div>
                                     </div>
-                                </div>
+                                
                             )}
                         </Mutation>
                     );
