@@ -141,7 +141,7 @@ class EditLogoScreen extends Component {
                 var width = pdf.internal.pageSize.getWidth();
                 var height = pdf.internal.pageSize.getHeight();
 
-                pdf.addImage(imgData, 'JPEG', 0, 0, width, height);
+                pdf.addImage(imgData, 'JPEG', -100, -50, width, height);
                 pdf.save("test.pdf");
             });
     }
@@ -216,11 +216,13 @@ class EditLogoScreen extends Component {
                                                     
                                                     </Rnd>
                                                 </div>
+                                                
                                                     <label htmlFor="text">Text:</label>
                                                     <input type="text" className="form-control" name="text" ref={node => {
                                                         text = node;
                                                     }} onChange={() => this.setState({renderText: text.value})} placeholder={data.logo.text} defaultValue={data.logo.text} />
                                                 </div>
+                                                
                                                 <div className="form-group col-4">
                                                     <input type="text" className="form-control" onChange={this.logoHandler} placeholder="Logo Name" aria-label="Recipient's username" aria-describedby="button-addon2"/>
                                                     <div className="input-group-append">
@@ -309,17 +311,13 @@ class EditLogoScreen extends Component {
                                             </form>
                                             <div className="container" id="allLogos">
                                                 
-                                            <div className="col-6">
-                                            <Rnd
+                                            <div>
+                                                <Rnd
                                                 style= {{
                                                     color: this.state.renderColor ? this.state.renderColor : data.logo.color,
-                                                    // backgroundColor: this.state.renderBackgroundColor ? this.state.renderBackgroundColor : data.logo.backgroundColor,
-                                                    // borderColor: this.state.renderBorderColor ? this.state.renderBorderColor : data.logo.borderColor,
-                                                    //borderStyle: "solid",
+                                                  
                                                     fontSize: (this.state.renderFontSize ? this.state.renderFontSize : data.logo.fontSize) + "pt",
-                                                    //borderWidth: (this.state.renderBorderWidth ? this.state.renderBorderWidth : data.logo.borderWidth) + "px",
-                                                    //borderRadius: (this.state.renderBorderRadius ? this.state.renderBorderRadius : data.logo.borderRadius) + "px",
-                                                }}
+                                                     }}
                                                 default= {{
                                                     x: data.logo.x,
                                                     y: data.logo.y,
@@ -339,6 +337,9 @@ class EditLogoScreen extends Component {
                                                 >
                                                 {this.state.renderText ? this.state.renderText :  data.logo.text}
                                                 </Rnd>
+                                                </div>
+                                            <div className="col-6">
+                                            
                                                 {/* <span style={{
                                                     display: "inline-block",
                                                     color: this.state.renderColor ? this.state.renderColor : data.logo.color,
